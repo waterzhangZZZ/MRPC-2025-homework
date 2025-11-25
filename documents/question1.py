@@ -3,7 +3,6 @@ homework题目一
 """
 
 import numpy as np
-<<<<<<< HEAD
 import pandas as pd
 import matplotlib.pyplot as plt
 
