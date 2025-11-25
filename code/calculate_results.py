@@ -57,7 +57,7 @@ def calculate_rmse_and_more():
     additional_score = check_additional_file()
 
     # 简单综合评价得分（这里只是将三个指标相加，可根据需求调整权重等）
-    overall_score = rmse + 5*1/total_time + 3*1/total_length+additional_score
+    overall_score = rmse + 5*total_time + 3*total_length+additional_score
 
     return rmse, total_time, total_length, additional_score,overall_score
 
