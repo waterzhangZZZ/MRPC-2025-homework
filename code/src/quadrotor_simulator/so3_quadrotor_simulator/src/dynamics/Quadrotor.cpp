@@ -178,6 +178,7 @@ void Quadrotor::operator()(const Quadrotor::InternalState& x,
 
   // double totalF = kf_ * motor_rpm_sq.sum();
   double thrust = kf_ * motor_rpm_sq.sum();  //总推力
+  // 在机体坐标系中总推力总是垂直的，只有z轴上的力
 
   Eigen::Vector3d moments;  //力矩
   moments(0) = kf_ * (motor_rpm_sq(2) - motor_rpm_sq(3)) * arm_length_;
@@ -185,6 +186,8 @@ void Quadrotor::operator()(const Quadrotor::InternalState& x,
   moments(2) = km_ * (motor_rpm_sq(0) + motor_rpm_sq(1) - motor_rpm_sq(2) -
                       motor_rpm_sq(3));
 
+  // 空气阻力的大小=阻力系数*面积*速度的平方 
+  // 面积计算使用螺旋桨臂长计算的圆面积
   double resistance = 0.1 *                                        // C
                       3.14159265 * (arm_length_) * (arm_length_) * // S
                       cur_state.v.norm() * cur_state.v.norm();
@@ -199,6 +202,11 @@ void Quadrotor::operator()(const Quadrotor::InternalState& x,
   x_dot = cur_state.v;
   //请在这里补充完四旋翼飞机的动力学模型，提示：v_dot应该与重力，总推力，外力和空气阻力相关
   // v_dot = //?????
+  // 获取外力可以使用函数getExternalForce(void)，也可以使用external_force_，应该已经被设置过了，但是外力的初始化为0，为了保险还是使用函数来获取外力值
+  // 四项分别为重力，总推力，外力，空气阻力
+  // resistance是一个标量，vnorm需要提供阻力方向
+  v_dot = -g_ * Eigen::Vector3d(0, 0, 1) + (R * thrust * Eigen::Vector3d(0, 0, 1))/mass_
+            + external_force_ / mass_ - resistance * vnorm / mass_
 
   acc_ = v_dot;
 

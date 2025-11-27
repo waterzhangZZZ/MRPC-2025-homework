@@ -141,7 +141,7 @@ git clone https://github.com/Dwl2021/MRPC-2025-homework.git
 
 ### 3.1 任务一：补全四旋翼飞机的动力学模型
 
-在 `MRPC-2025-homework/src/uav_simulator/so3_quadrotor_simulator/src/dynamics/Quadrotor.cpp` 中描述了四旋翼的动力学模型，请阅读代码 `Quadrotor.cpp`，补充四旋翼的动力学模型：
+在 `MRPC-2025-homework\code\src\quadrotor_simulator\so3_quadrotor_simulator\src\dynamics\Quadrotor.cpp` 中描述了四旋翼的动力学模型，请阅读代码 `Quadrotor.cpp`，补充四旋翼的动力学模型：
 
 ```cpp
 x_dot = cur_state.v;
