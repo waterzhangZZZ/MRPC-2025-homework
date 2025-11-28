@@ -202,6 +202,7 @@ void Quadrotor::operator()(const Quadrotor::InternalState& x,
   x_dot = cur_state.v;
   //请在这里补充完四旋翼飞机的动力学模型，提示：v_dot应该与重力，总推力，外力和空气阻力相关
   // v_dot = //?????
+  // m*v_dot = -mg*z_w + R_IB*T_B
   // 获取外力可以使用函数getExternalForce(void)，也可以使用external_force_，应该已经被设置过了，但是外力的初始化为0，为了保险还是使用函数来获取外力值
   // 四项分别为重力，总推力，外力，空气阻力
   // resistance是一个标量，vnorm需要提供阻力方向
@@ -213,6 +214,9 @@ void Quadrotor::operator()(const Quadrotor::InternalState& x,
   R_dot = R * omega_vee;
   //请在这里补充完四旋翼飞机的动力学模型，角速度导数的计算涉及到惯性矩阵J_的逆、力矩、科里奥利力（通过角速度与惯性矩阵和角速度的叉积来计算）和外部力矩等因素。
   // omega_dot = //??????
+  // J*omega_dot = M_B - [omega] x J*omega
+  // J矩阵的逆*（力矩+外部力距-科里奥利力）
+  omega_dot = J_.inverse() * (moments + getExternalMoment() - cur_state.omega.cross(J_ * cur_state.omega));
 
   motor_rpm_dot = (input_ - cur_state.motor_rpm) / motor_time_constant_;
 
