@@ -131,6 +131,17 @@ getControl(const QuadrotorSimulator::Quadrotor& quad, const Command& cmd)  //据
 
     control.rpm[i] = sqrtf(w_sq[i]);
   }
+  
+  // DEBUG: 检查控制输出
+  static int debug_cnt = 0;
+  if(debug_cnt++ % 1000 == 0) {
+    std::cout << "DEBUG: force=" << cmd.force[2] << " w_sq=";
+    for(int i=0; i<4; i++) std::cout << w_sq[i] << " ";
+    std::cout << "rpm=";
+    for(int i=0; i<4; i++) std::cout << control.rpm[i] << " ";
+    std::cout << std::endl;
+  }
+  
   return control;
 }
 
