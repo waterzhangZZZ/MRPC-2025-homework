@@ -191,7 +191,13 @@ double Astarpath::getHeu(MappingNodePtr node1, MappingNodePtr node2) {
   double heu;
   double tie_breaker;
   
-  return heu;
+  // Euclidean distance
+  heu = (node1->coord - node2->coord).norm();
+  
+  // Tie breaker
+  tie_breaker = 1.0 + 1.0 / 10000.0;
+  
+  return heu * tie_breaker;
 }
 
 
@@ -247,11 +253,20 @@ bool Astarpath::AstarSearch(Vector3d start_pt, Vector3d end_pt) {
 
   while (!Openset.empty()) {
     //1.弹出g+h最小的节点
-    //????
+    currentPtr = Openset.begin()->second;
+    Openset.erase(Openset.begin());
+    currentPtr->id = -1; // Mark as closed
+
     //2.判断是否是终点
-    //????
+    if (currentPtr->index == goalIdx) {
+      terminatePtr = currentPtr;
+      ROS_INFO("\033[1;32m Reach Goal! \033[0m");
+      return true;
+    }
+
     //3.拓展当前节点
-    //????
+    AstarGetSucc(currentPtr, neighborPtrSets, edgeCostSets);
+
     for(unsigned int i=0;i<neighborPtrSets.size();i++)
     {
       
@@ -266,12 +281,25 @@ bool Astarpath::AstarSearch(Vector3d start_pt, Vector3d end_pt) {
       if(neighborPtr->id==0)
       {
         //4.填写信息，完成更新
-        //???
+        neighborPtr->id = 1;
+        neighborPtr->Father = currentPtr;
+        neighborPtr->g_score = tentative_g_score;
+        neighborPtr->f_score = tentative_g_score + getHeu(neighborPtr, endPtr);
+        Openset.insert(make_pair(neighborPtr->f_score, neighborPtr));
         continue;
       }
       else if(neighborPtr->id==1)
       {
-        //???
+        if (tentative_g_score < neighborPtr->g_score) {
+          neighborPtr->Father = currentPtr;
+          neighborPtr->g_score = tentative_g_score;
+          neighborPtr->f_score = tentative_g_score + getHeu(neighborPtr, endPtr);
+          // Since we cannot easily update the key in multimap, we can just insert the new one.
+          // The old one will be popped later but will be closed (id == -1) or have higher cost.
+          // However, a cleaner way is to not remove it but just add the better path.
+          // Given the structure, we just insert.
+          Openset.insert(make_pair(neighborPtr->f_score, neighborPtr));
+        }
       continue;
       }
     }
@@ -300,7 +328,9 @@ terminatePtr=terminatePtr->Father;
    *
    * **/
 
-  // ???
+  for (int i = front_path.size() - 1; i >= 0; i--) {
+    path.push_back(front_path[i]->coord);
+  }
 
   return path;
 }
