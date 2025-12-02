@@ -56,7 +56,7 @@ def calculate_rmse_and_more():
     # 检查是否发生了碰撞
     additional_score = check_additional_file()
 
-    overall_score = 200. * rmse + 1./5. * total_time + 1./5. * total_length + 10. * additional_score
+    overall_score = 200. * rmse + 1./5. * total_time + 1./5. * total_length + 40. * additional_score
     
     return rmse, total_time, total_length, additional_score, overall_score
 def check_additional_file():

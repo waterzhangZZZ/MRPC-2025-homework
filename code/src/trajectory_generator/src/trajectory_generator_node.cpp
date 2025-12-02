@@ -292,22 +292,15 @@ void issafe(const ros::TimerEvent &e){
     Eigen::Vector3d now_pos;
     now_pos = odom_pt;
     Eigen::Vector3i odom_index = _astar_path_finder->c2i(now_pos);
-    if(_astar_path_finder->is_occupy(odom_index)){
-      // std::cout << "now place is in obstacle, the drone has cracked!!!";
+    if(_astar_path_finder->is_occupy(odom_index) && !cracked){
       ROS_WARN("now place is in obstacle, the drone has cracked!!!");
       cracked = true;
-      // 获取当前的ROS时间
-      ros::Time now_time = ros::Time::now();
-
       if(!dataFiles.is_open()){
         dataFiles.open("/home/stuwork/MRPC-2025-homework/code/src/quadrotor_simulator/so3_control/src/issafe.txt", std::ios::out|std::ios::trunc);
       }
-      
-
-      dataFiles << 1 ;
-
+      dataFiles << 1;
+      dataFiles.flush();
     }
-
 }
 
 
