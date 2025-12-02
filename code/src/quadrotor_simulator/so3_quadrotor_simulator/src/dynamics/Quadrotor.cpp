@@ -209,9 +209,9 @@ void Quadrotor::operator()(const Quadrotor::InternalState& x,
   v_dot = -g_ * Eigen::Vector3d(0, 0, 1) + (R * thrust * Eigen::Vector3d(0, 0, 1))/mass_
             + getExternalForce() / mass_ - resistance * vnorm / mass_;
 
-  // DEBUG: 验证代码是否生效
-  static int debug_cnt = 0;
-  if(debug_cnt++ % 1000 == 0) std::cout << "DEBUG: v_dot z=" << v_dot(2) << std::endl;
+  // // DEBUG: 验证代码是否生效
+  // static int debug_cnt = 0;
+  // if(debug_cnt++ % 1000 == 0) std::cout << "DEBUG: v_dot z=" << v_dot(2) << std::endl;
 
   acc_ = v_dot;
 
