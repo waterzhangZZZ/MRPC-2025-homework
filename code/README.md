@@ -201,7 +201,7 @@ roslaunch trajectory_generator test_control.launch
 
 ### 3.2 任务二：补充无人机的前端规划模块
 
-在 `MRPC-2025-homework/src/planner/path_searching/src/kinodynamic_astar.cpp` 中补充完有关于 A* 的相关内容，共有 4 个 `STEP` 需要你补齐。
+在 `MRPC-2025-homework\code\src\trajectory_generator\src\Astar_searcher.cpp` 中补充完有关于 A* 的相关内容，共有 4 个 `STEP` 需要你补齐。
 
 #### STEP 1.1：补全启发式函数
 
@@ -328,7 +328,7 @@ roslaunch trajectory_generator demo.launch
 
 在上面所有的代码都补齐之后，你应该可以编译成功并且进行测试了，但是你会发现飞机对于轨迹的跟踪并不是很好，那么你需要对控制器的参数进行调整。
 
-请阅读 `MRPC-2025-homework/src/uav_simulator/so3_control/src/so3_control_nodelet.cpp` 中的控制器代码，并且对 `position_cmd_callback` 函数中的 `kx_` 和 `kv_` 参数进行调整。
+请阅读 `MRPC-2025-homework\code\src\quadrotor_simulator\so3_control\src\so3_control_nodelet.cpp` 中的控制器代码，并且对 `position_cmd_callback` 函数中的 `kx_` 和 `kv_` 参数进行调整。
 
 ```cpp
 void SO3ControlNodelet::position_cmd_callback(
