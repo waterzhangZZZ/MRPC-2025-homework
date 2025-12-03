@@ -1,0 +1,11 @@
+material _missing_material_
+{
+  technique
+  {
+    pass
+    {
+      ambient 0.8 0.8 0.8 1.0
+      diffuse 0.8 0.8 0.8 1.0
+    }
+  }
+}

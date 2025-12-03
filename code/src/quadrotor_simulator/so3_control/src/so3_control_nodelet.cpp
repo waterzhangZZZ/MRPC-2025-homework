@@ -100,8 +100,8 @@ SO3ControlNodelet::position_cmd_callback(
   des_acc_ = Eigen::Vector3d(cmd->acceleration.x, cmd->acceleration.y,
                              cmd->acceleration.z);
 
-  kx_ = Eigen::Vector3d(8, 4, 6.7);
-  kv_ = Eigen::Vector3d(4.5, 2.3, 4.0);
+  kx_ = Eigen::Vector3d(5, 5, 4);
+  kv_ = Eigen::Vector3d(8, 5, 4);
 
   des_yaw_              = cmd->yaw;
   des_yaw_dot_          = cmd->yaw_dot;
